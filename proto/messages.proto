@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "edu.jhu";
+
+message UserInputs {
+  int32 populationSize = 1;
+  double infectionRate = 2;
+  int32 numInfected = 3;
+  double recoveryRate = 4;
+  int32 timeStepsDays = 5;
+}
+
+message SimInputs {
+  int32 length = 1;
+  int32 epidemicParam1 = 2;
+  int32 epidemicParam2 = 3;
+}
+
+message SimResults {
+  google.protobuf.Timestamp time = 1;
+  int32 numInfected = 2;
+  int32 numSusceptible = 3;
+  int32 numRecovered = 4;
+}
