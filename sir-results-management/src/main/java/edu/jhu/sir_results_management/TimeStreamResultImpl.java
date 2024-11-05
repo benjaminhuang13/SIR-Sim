@@ -2,11 +2,15 @@ package edu.jhu.sir_results_management;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import software.amazon.awssdk.services.timestreamwrite.model.*;
+import edu.jhu.Messages.SimResults;
+import software.amazon.awssdk.services.timestreamwrite.model.MeasureValueType;
 import software.amazon.awssdk.services.timestreamwrite.model.Record;
+import software.amazon.awssdk.services.timestreamwrite.model.RejectedRecordsException;
+import software.amazon.awssdk.services.timestreamwrite.model.WriteRecordsRequest;
 
 /**
  * For more information on Timestream SDK: What is Amazon Timestream for
@@ -20,30 +24,30 @@ public class TimeStreamResultImpl implements IResultsStorage {
     private TimestreamConfiguration timestreamConfig;
 
     @Override
-    public void storeResults(String results) {
+    public void storeResults(SimResults results) {
 
         List<Record> records = new ArrayList<>();
-        final long time = System.currentTimeMillis(); // TODO - Is this an input
+        long time = results.getTime().getSeconds() * 1000 + results.getTime().getNanos() / 1000;
 
         Record numInfected = Record.builder()
                 .dimensions(timestreamConfig.dimensions())
                 .measureValueType(MeasureValueType.BIGINT)
                 .measureName("num_infected")
-                .measureValue("1000") // TODO
+                .measureValue(Integer.toString(results.getNumInfected()))
                 .time(String.valueOf(time)).build();
 
         Record numSusceptible = Record.builder()
                 .dimensions(timestreamConfig.dimensions())
                 .measureValueType(MeasureValueType.BIGINT)
                 .measureName("num_susceptible")
-                .measureValue("1000") // TODO
+                .measureValue(Integer.toString(results.getNumSusceptible()))
                 .time(String.valueOf(time)).build();
 
         Record numRecovered = Record.builder()
                 .dimensions(timestreamConfig.dimensions())
                 .measureValueType(MeasureValueType.BIGINT)
                 .measureName("num_recovered")
-                .measureValue("1000") // TODO
+                .measureValue(Integer.toString(results.getNumRecovered()))
                 .time(String.valueOf(time)).build();
 
         records.add(numInfected);
