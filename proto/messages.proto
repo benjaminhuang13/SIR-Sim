@@ -18,9 +18,13 @@ message SimInputs {
   int32 epidemicParam2 = 3;
 }
 
-message SimResults {
+message DailyResult {
   google.protobuf.Timestamp time = 1;
-  int32 numInfected = 2;
-  int32 numSusceptible = 3;
+  int32 numSusceptible = 2;
+  int32 numInfected = 3;
   int32 numRecovered = 4;
+}
+
+message SimResults {
+  repeated DailyResult results = 1;
 }
