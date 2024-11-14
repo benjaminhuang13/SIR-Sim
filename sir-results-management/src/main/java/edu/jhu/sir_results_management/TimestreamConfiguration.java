@@ -15,12 +15,10 @@ public class TimestreamConfiguration {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    @Value("${cloud.aws.az}")
-    private String az;
-
-    @Value("${cloud.aws.timestream.host}")
-    private String host;
-
+    //@Value("${cloud.aws.az}")
+    //private String az;
+    //@Value("${cloud.aws.timestream.host}")
+    //private String host;
     @Value("${cloud.aws.timestream.database}")
     private String database;
 
@@ -39,8 +37,8 @@ public class TimestreamConfiguration {
         List<Dimension> dimensions = new ArrayList<>();
 
         dimensions.add(Dimension.builder().name("region").value(region).build());
-        dimensions.add(Dimension.builder().name("az").value(az).build());
-        dimensions.add(Dimension.builder().name("hostname").value(host).build());
+        //dimensions.add(Dimension.builder().name("az").value(az).build());
+        //dimensions.add(Dimension.builder().name("hostname").value(host).build());
 
         return dimensions;
     }

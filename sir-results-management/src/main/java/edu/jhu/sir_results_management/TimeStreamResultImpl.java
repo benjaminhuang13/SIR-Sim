@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import edu.jhu.Messages.DailyResult;
 import edu.jhu.Messages.SimResults;
 import software.amazon.awssdk.services.timestreamwrite.model.MeasureValueType;
 import software.amazon.awssdk.services.timestreamwrite.model.Record;
@@ -27,32 +28,39 @@ public class TimeStreamResultImpl implements IResultsStorage {
     public void storeResults(SimResults results) {
 
         List<Record> records = new ArrayList<>();
-        long time = results.getTime().getSeconds() * 1000 + results.getTime().getNanos() / 1000;
 
-        Record numInfected = Record.builder()
-                .dimensions(timestreamConfig.dimensions())
-                .measureValueType(MeasureValueType.BIGINT)
-                .measureName("num_infected")
-                .measureValue(Integer.toString(results.getNumInfected()))
-                .time(String.valueOf(time)).build();
+        for (DailyResult result : results.getResultsList()) {
 
-        Record numSusceptible = Record.builder()
-                .dimensions(timestreamConfig.dimensions())
-                .measureValueType(MeasureValueType.BIGINT)
-                .measureName("num_susceptible")
-                .measureValue(Integer.toString(results.getNumSusceptible()))
-                .time(String.valueOf(time)).build();
+            String time = String.valueOf(result.getTime().getSeconds() * 1000 + result.getTime().getNanos() / 1000);
 
-        Record numRecovered = Record.builder()
-                .dimensions(timestreamConfig.dimensions())
-                .measureValueType(MeasureValueType.BIGINT)
-                .measureName("num_recovered")
-                .measureValue(Integer.toString(results.getNumRecovered()))
-                .time(String.valueOf(time)).build();
+            Record numInfected = Record.builder()
+                    .dimensions(timestreamConfig.dimensions())
+                    .measureValueType(MeasureValueType.BIGINT)
+                    .measureName("num_infected")
+                    .measureValue(Integer.toString(result.getNumInfected()))
+                    .time(time)
+                    .build();
 
-        records.add(numInfected);
-        records.add(numSusceptible);
-        records.add(numRecovered);
+            Record numSusceptible = Record.builder()
+                    .dimensions(timestreamConfig.dimensions())
+                    .measureValueType(MeasureValueType.BIGINT)
+                    .measureName("num_susceptible")
+                    .measureValue(Integer.toString(result.getNumSusceptible()))
+                    .time(time)
+                    .build();
+
+            Record numRecovered = Record.builder()
+                    .dimensions(timestreamConfig.dimensions())
+                    .measureValueType(MeasureValueType.BIGINT)
+                    .measureName("num_recovered")
+                    .measureValue(Integer.toString(result.getNumRecovered()))
+                    .time(time)
+                    .build();
+
+            records.add(numInfected);
+            records.add(numSusceptible);
+            records.add(numRecovered);
+        }
 
         WriteRecordsRequest writeRequest = WriteRecordsRequest.builder()
                 .databaseName(timestreamConfig.getDatabaseName())
