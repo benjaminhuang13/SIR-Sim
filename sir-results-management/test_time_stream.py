@@ -13,13 +13,15 @@ class TestTimeStream(unittest.TestCase):
       timeStream = time_stream_interface.timeStreamHandler('us-east-1')
 
       result = {
-         'time': datetime.now(),
+         'time': int(datetime.now().timestamp() * 1000),
          'numSusceptible': 1,
          'numInfected': 2,
          'numRecovered': 3,
       }
 
-      dailyResults = [result]
+      dailyResults = { 
+         'results' : [result]
+      }
 
       timeStream.writeResults(dailyResults)
 

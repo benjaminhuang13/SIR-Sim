@@ -7,19 +7,21 @@ from datetime import datetime, timezone
 class timeStreamHandler:
 
    def __init__(self, region):
-      self.write_client = boto3.Session().client('timestream-write', config=Config(read_timeout=20, max_pool_connections = 5000, retries={'max_attempts': 10}))
+      self.write_client = boto3.Session().client('timestream-write', 
+                                                 config=Config(region_name = region, read_timeout =20, 
+                                                               max_pool_connections = 5000, retries={'max_attempts': 10}))
       self.dimensions = [ {'Name': 'region', 'Value': region} ]
 
    def writeResults(self, simResults):
 
       writeRecords = []
 
-      for result in simResults:
+      for result in simResults['results']:
 
          print(result)
 
          # Convert date time to milliseconds epoch as a string
-         time = str(round(result['time'].timestamp() * 1000))
+         time = str(result['time'])
 
          num_infected = {
             'Dimensions': self.dimensions,
@@ -53,7 +55,7 @@ class timeStreamHandler:
                   Records=writeRecords, CommonAttributes={})
          print("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
          success = True
-      except self.client.exceptions.RejectedRecordsException as err:
+      except self.write_client.exceptions.RejectedRecordsException as err:
          self._print_rejected_records_exceptions(err)
       except Exception as err:
          print("Error:", err)
