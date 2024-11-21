@@ -134,3 +134,14 @@ input {
   box-shadow: 0 4px #808080;
   transform: translateY(4px);
 }
+
+#submit_data_response {
+  display: table;
+  height: 20px;
+  margin-top: 15px;
+}
+#submit_data_response p {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
