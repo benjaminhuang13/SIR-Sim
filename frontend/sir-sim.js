@@ -1,10 +1,11 @@
-const API_GATEWAY = "";
+const API_GATEWAY =
+  "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim";
 const input_form = document.getElementById("input_form_section");
 const graph_section = document.getElementById("graph_section");
 const submit_data_response = document.getElementById("submit_data_response");
+const start_button = document.getElementById("start_button");
 
-async function returnCustomerData(url) {
-  const start_button = document.getElementById("start_button");
+start_button.addEventListener("click", (e) => {
   const population_size = document.getElementById("population_size");
   const initial_infection_rate = document.getElementById(
     "initial_infection_rate"
@@ -13,41 +14,42 @@ async function returnCustomerData(url) {
     "initial_number_of_infected"
   );
   const recovery_rate = document.getElementById("recovery_rate");
+  e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
+  console.log("start button clicked!");
+  submit_input(
+    population_size.value,
+    initial_infection_rate.value,
+    initial_number_of_infected.value,
+    recovery_rate.value
+  );
+});
 
-  start_button.addEventListener("click", (e) => {
-    e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
-    submit_input(
-      population_size.value,
-      initial_infection_rate.value,
-      initial_number_of_infected.value,
-      recovery_rate.value
-    );
-  });
-}
-
-async function submit_input(
+// TODO
+function submit_input(
   pop_size,
   initial_infection_rate,
   initial_number_of_infected,
   recovery_rate
 ) {
-  const response = await fetch(API_GATEWAY + "/path", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      pop_size: `${pop_size}`,
-      initial_infection_rate: `${initial_infection_rate}`,
-      initial_number_of_infected: `${initial_number_of_infected}`,
-      recovery_rate: `${recovery_rate}`,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
+  axios
+    .post(
+      "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data",
+      {
+        api: "post",
+        pop_size: `${pop_size}`,
+        initial_infection_rate: `${initial_infection_rate}`,
+        initial_number_of_infected: `${initial_number_of_infected}`,
+        recovery_rate: `${recovery_rate}`,
+      }
+    )
+    .then((response) => {
+      console.log(response);
       submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
-      location.reload();
+      console.log("Successfully posted data!");
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("Something went wrong!");
     });
 }
 

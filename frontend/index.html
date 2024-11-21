@@ -25,33 +25,40 @@
 
   <section class="sections" id="input_form_section" >
   <div class="input_wrapper" id="input_wrapper">
-    <div id="submit_data_response"></div>
-    <form class = "input_form">
+    <form class = "input_form" accept-charset=utf-8>
       <div class = "input_form_row">
         <label for="population_size">Population size</label>
         <input class="input_data" type="number" min="100" max="1000" id="population_size" name="population_size" autocomplete="population_size" required enterkeyhint="next">
       </div>
       <div class = "input_form_row">
         <label for="initial_infection_rate">Initial Infection Rate</label>
-        <input class="input_data" type="number" min="0" max="1" id="initial_infection_rate" name="initial_infection_rate" autocomplete="initial_infection_rate" required enterkeyhint="next"></input>
+        <input class="input_data" type="number" step=".01" min="0" max="1" id="initial_infection_rate" name="initial_infection_rate" autocomplete="initial_infection_rate" required enterkeyhint="next"></input>
       </div>
       <div class = "input_form_row">
         <label for="initial_number_of_infected">Initial Number of Infected</label>
-        <input class="input_data" type="number" id="initial_number_of_infected" name="initial_number_of_infected" autocomplete="initial_number_of_infected" enterkeyhint="next" required>
+        <input class="input_data" type="number" step=".01"id="initial_number_of_infected" name="initial_number_of_infected" autocomplete="initial_number_of_infected" enterkeyhint="next" required>
       </div>
       <div class = "input_form_row">
         <label for="recovery_rate">Recovery Rate</label>
-        <input class="input_data" type="number" min="0" max="30" id="recovery_rate" name="recovery_rate" autocomplete="recovery_rate" enterkeyhint="next" required>
+        <input class="input_data" type="number" step=".01" min="0" max="30" id="recovery_rate" name="recovery_rate" autocomplete="recovery_rate" enterkeyhint="next" required>
       </div>
       <div class = "input_form_row">
         <button class="start_button" id = "start_button">START</button>
+        <div id="submit_data_response"></div>
         </div>
     </form>
   </div>
   </section>
   <section class="sections" id="graph_section" ></section>
   <div style="padding-left:16px">
-  
+    <script type="importmap">
+      {
+        "imports": {
+          "axios": "https://cdn.jsdelivr.net/npm/axios@1.3.5/+esm"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="sir-sim.js"></script>
 </body>
-<script src="sir-sim.js"></script>
 </html>
