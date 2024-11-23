@@ -1,0 +1,71 @@
+name: Deploy SIR Results Management
+
+on:
+  workflow_dispatch:
+    inputs:
+      lambda_function_name:
+        description: "Name of the Lambda function to deploy"
+        required: true
+        default: "sir-results-lambda"
+
+jobs:
+  set-up-timestream:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-2
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+    steps:
+      - name: Create Timestream Db if Not Exists
+        run: |
+          aws timestream-write describe-database --database-name sir-sim
+          if [ $? -ne 0 ]; then
+             aws timestream-write create-database --database-name sir-sim
+             aws timestream-write create-table --database-name sir-sim --table-name results
+          fi
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      ECR_REPOSITORY_NAME: sir-results-management
+      AWS_REGION: us-east-2
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      IMAGE_TAG: latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }} ./sir-results-management
+
+      - name: Create ECR repository if it doesn't exist
+        run: |
+          aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY_NAME }} || \
+          aws ecr create-repository --repository-name ${{ env.ECR_REPOSITORY_NAME }}
+
+      - name: Tag the Docker image
+        run: |
+          ECR_URI="${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }}"
+          docker tag ${{ env.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }} $ECR_URI
+
+      - name: Push Docker image to ECR
+        run: |
+          ECR_URI="${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }}"
+          docker push $ECR_URI
+
+      - name: Deploy Lambda function
+        run: |
+          ECR_URI="${{ steps.ecr-login.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }}"
+          aws lambda update-function-code \
+          --function-name ${{ github.event.inputs.lambda_function_name }} \
+          --image-uri $ECR_URI
