@@ -9,7 +9,7 @@ on:
         default: "sir-results-lambda"
 
 jobs:
-  set-up-timestream:
+  setup-aws-resources:
     runs-on: ubuntu-latest
     env:
       AWS_REGION: us-east-2

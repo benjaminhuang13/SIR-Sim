@@ -8,7 +8,7 @@ class TestTimeStream(unittest.TestCase):
 
    def test_read_after_write(self):
       # Setup environment variables
-      os.environ['DATABASE_NAME'] = 'sir-sim-results'
+      os.environ['DATABASE_NAME'] = 'sir-sim'
       os.environ['TABLE_NAME'] = 'results'
 
       timeStream = time_stream_interface.timeStreamHandler('us-east-1')

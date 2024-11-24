@@ -1,8 +1,7 @@
-import sys
 import os
 import boto3
 from botocore.config import Config
-from datetime import datetime, timezone
+from datetime import datetime
 
 # sources: 
 #  https://github.com/awslabs/amazon-timestream-tools/blob/mainline/sample_apps/python/SampleApplication.py
@@ -20,12 +19,8 @@ class timeStreamHandler:
 
 
    def writeResults(self, simResults):
-
       writeRecords = []
-
       for result in simResults['results']:
-
-         # print(result)
 
          # Convert date time to milliseconds epoch as a string
          time = str(result['time'])
@@ -57,17 +52,21 @@ class timeStreamHandler:
          writeRecords.extend([num_infected, num_susceptible, num_recovered])
 
       success = False
+      message = ""
       try:
          result = self.write_client.write_records(DatabaseName=os.environ["DATABASE_NAME"], TableName=os.environ["TABLE_NAME"],
                   Records=writeRecords, CommonAttributes={})
          print("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
          success = result['ResponseMetadata']['HTTPStatusCode'] == 200
+         message = "Success"
       except self.write_client.exceptions.RejectedRecordsException as err:
          self._print_rejected_records_exceptions(err)
+         message = "Failed to write records to time stream database."
       except Exception as err:
          print("Error:", err)
+         message = "Unknown error. See logger for more details."
 
-      return success
+      return success, message
 
    # Source: https://github.com/awslabs/amazon-timestream-tools/blob/mainline/sample_apps/python/QueryExample.py
    # Start and End time are milliseconds epoch
@@ -155,3 +154,11 @@ class timeStreamHandler:
       else:
          # Non-scalar values not supported at this time
          return str_value
+      
+   @staticmethod
+   def _print_rejected_records_exceptions(err):
+      print("RejectedRecords: ", err)
+      for rr in err.response["RejectedRecords"]:
+         print("Rejected Index " + str(rr["RecordIndex"]) + ": " + rr["Reason"])
+         if "ExistingVersion" in rr:
+            print("Rejected record existing version: ", rr["ExistingVersion"])
