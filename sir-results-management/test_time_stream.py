@@ -11,7 +11,7 @@ class TestTimeStream(unittest.TestCase):
       os.environ['DATABASE_NAME'] = 'sir-sim'
       os.environ['TABLE_NAME'] = 'results'
 
-      timeStream = time_stream_interface.timeStreamHandler('us-east-1')
+      #timeStream = time_stream_interface.timeStreamHandler('us-east-1')
       start_time = datetime.now().timestamp()  * 1000
 
       result = {
@@ -21,14 +21,14 @@ class TestTimeStream(unittest.TestCase):
          'numRecovered': 3,
       }
 
-      dailyResults = { 
+      dailyResults = {  
          'results' : [result]
       }
 
-      success = timeStream.writeResults(dailyResults)
+      success = time_stream_interface.writeResults('us-east-1',dailyResults)
       self.assertTrue(success)
 
-      read_results = timeStream.readResults(start_time - 1000, datetime.now().timestamp()  * 1000)
+      read_results = time_stream_interface.readResults('us-east-1',start_time - 1000, datetime.now().timestamp()  * 1000)
       self.assertEqual(1, read_results['results'][0]['numSusceptible'])
       self.assertEqual(2, read_results['results'][0]['numInfected'])
       self.assertEqual(3, read_results['results'][0]['numRecovered'])

@@ -3,7 +3,6 @@ import json
 import sqs_handler
 import time_stream_interface
 
-
 def lambda_handler(event, context):
    region = os.environ["AWS_REGION"]
 
@@ -12,13 +11,11 @@ def lambda_handler(event, context):
    results_json =  event['Records'][0]['body']
    results = json.loads(results_json)
 
-   timeStream = time_stream_interface.timeStreamHandler(region)
-   success, errMessage = timeStream.writeResults(results)
+   success, errMessage = time_stream_interface.writeResults(region, results)
 
    if success:
       # If successful send event to successful write queue
-      sqs = sqs_handler.sqsHandler(region)
-      sqs.sendSuccessResults(results_json)
+      sqs_handler.sendSuccessResults(region, results_json)
 
       return {
          'statusCode': 200,
