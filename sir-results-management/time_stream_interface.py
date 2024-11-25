@@ -12,10 +12,10 @@ class timeStreamHandler:
       self.write_client = boto3.Session().client('timestream-write', 
                                                  config=Config(region_name = region, read_timeout =20, 
                                                                max_pool_connections = 5000, retries={'max_attempts': 10}))
-      self.query_client = boto3.Session().client('timestream-query', config=Config(region_name = region))
       self.dimensions = [ {'Name': 'region', 'Value': region} ]
       self.database_name = DatabaseName=os.environ["DATABASE_NAME"]
       self.table_name = DatabaseName=os.environ["TABLE_NAME"]
+      self.region = region
 
 
    def writeResults(self, simResults):
@@ -56,7 +56,7 @@ class timeStreamHandler:
       try:
          result = self.write_client.write_records(DatabaseName=os.environ["DATABASE_NAME"], TableName=os.environ["TABLE_NAME"],
                   Records=writeRecords, CommonAttributes={})
-         print("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
+         #print("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
          success = result['ResponseMetadata']['HTTPStatusCode'] == 200
          message = "Success"
       except self.write_client.exceptions.RejectedRecordsException as err:
@@ -71,6 +71,9 @@ class timeStreamHandler:
    # Source: https://github.com/awslabs/amazon-timestream-tools/blob/mainline/sample_apps/python/QueryExample.py
    # Start and End time are milliseconds epoch
    def readResults(self, startTime, endTime):
+
+      query_client = boto3.Session().client('timestream-query', config=Config(region_name = self.region))
+
       query = \
          "WITH Results AS ( " \
          "SELECT time, measure_name, measure_value::bigint as value " \
@@ -86,7 +89,7 @@ class timeStreamHandler:
       read_data = []
 
       try:
-         iterator = self.query_client.get_paginator('query').paginate(QueryString=query)
+         iterator = query_client.get_paginator('query').paginate(QueryString=query)
          for page in iterator:
             column_info = page['ColumnInfo']
             for row in page['Rows']:

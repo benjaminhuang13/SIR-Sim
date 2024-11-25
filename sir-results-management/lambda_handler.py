@@ -7,8 +7,6 @@ import time_stream_interface
 def lambda_handler(event, context):
    region = os.environ["AWS_REGION"]
 
-   print("Handling Lambda Event: " + str(event))
-
    # TODO - I don't believe we are doing batch lambdas for this.
    #  May need to add a loop through the records
    results_json =  event['Records'][0]['body']
