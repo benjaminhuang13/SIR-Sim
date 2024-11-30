@@ -51,24 +51,27 @@ async function submit_input(
       timeStepsDays: `${timeStepsDays}`,
     },
   });
+  body = JSON.stringify({
+    userInputs: {
+      populationSize: `${pop_size}`,
+      infectionRate: `${initial_infection_rate}`,
+      numInfected: `${initial_number_of_infected}`,
+      recoveryRate: `${recovery_rate}`,
+      timeStepsDays: `${timeStepsDays}`,
+    },
+  });
+  body =
+    '{"userInputs": {"populationSize": 100, "infectionRate": 0.3, "numInfected": 100, "recoveryRate": 0.1, "timeStepsDays": 3}}';
   await fetch(API_GATEWAY, {
-    method: "POST",
+    method: "PUT",
     headers: {
-      //"Content-Type": "application",
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/javascript",
+      //"Content-Type": "application/x-www-form-urlencoded",
       // Accept: "application/json",
       // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       // "Access-Control-Allow-Credentials": false,
     },
-    body: JSON.stringify({
-      userInputs: {
-        populationSize: `${pop_size}`,
-        infectionRate: `${initial_infection_rate}`,
-        numInfected: `${initial_number_of_infected}`,
-        recoveryRate: `${recovery_rate}`,
-        timeStepsDays: `${timeStepsDays}`,
-      },
-    }),
+    body,
   });
 
   // await axios
