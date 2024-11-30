@@ -145,3 +145,14 @@ input {
   vertical-align: middle;
   display: table-cell;
 }
+
+#graph_data_div {
+  display: table;
+  height: 20px;
+  margin-top: 15px;
+}
+#graph_data_div p {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
