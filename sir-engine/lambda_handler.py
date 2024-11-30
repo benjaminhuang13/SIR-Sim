@@ -37,4 +37,4 @@ def lambda_handler(event, context):
         # Send the result to the output SQS queue
         sqs.send_message( QueueUrl=OUTPUT_QUEUE_URL, MessageBody=json.dumps(result) )
 
-    return { "results": results }
+    return results
