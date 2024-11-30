@@ -24,6 +24,10 @@ def lambda_handler(event, context):
         if 'Messages' not in response:
             return {
                 'statusCode': 404,
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',  
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                },
                 'body': json.dumps({'message': 'No messages in the queue'})
             }
         message = response['Messages'][0]
@@ -38,6 +42,10 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps({
                 'message': 'Message retrieved from SQS',
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',  
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                },
                 'data': message_body
             })
         }
@@ -45,5 +53,9 @@ def lambda_handler(event, context):
         print(f"Error receiving or deleting message from SQS: {e}")
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',  
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                },
             'body': json.dumps({'message': 'Internal server error'})
         }
