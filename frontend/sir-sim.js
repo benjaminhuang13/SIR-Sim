@@ -43,22 +43,22 @@ async function submit_input(
   await fetch(
     API_GATEWAY,
     {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application",
         // Accept: "application/json",
         // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
         // "Access-Control-Allow-Credentials": false,
       },
-      // body: JSON.stringify({
-      //   userInputs: {
-      //     populationSize: `${pop_size}`,
-      //     infectionRate: `${initial_infection_rate}`,
-      //     numInfected: `${initial_number_of_infected}`,
-      //     recoveryRate: `${recovery_rate}`,
-      //     timeStepsDays: `${timeStepsDays}`,
-      //   },
-      // }),
+      body: JSON.stringify({
+        userInputs: {
+          populationSize: `${pop_size}`,
+          infectionRate: `${initial_infection_rate}`,
+          numInfected: `${initial_number_of_infected}`,
+          recoveryRate: `${recovery_rate}`,
+          timeStepsDays: `${timeStepsDays}`,
+        },
+      }),
     }
     // {
     //   headers: {
