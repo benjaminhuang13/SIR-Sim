@@ -40,34 +40,44 @@ async function submit_input(
   timeStepsDays
 ) {
   console.log("Sending user data!");
-  await fetch(
-    API_GATEWAY,
-    {
-      method: "POST",
+  body = JSON.stringify({
+    userInputs: {
+      populationSize: `${pop_size}`,
+      infectionRate: `${initial_infection_rate}`,
+      numInfected: `${initial_number_of_infected}`,
+      recoveryRate: `${recovery_rate}`,
+      timeStepsDays: `${timeStepsDays}`,
+    },
+  });
+  // await fetch(
+  //   API_GATEWAY,
+  //   {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application",
+  //       // Accept: "application/json",
+  //       // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+  //       // "Access-Control-Allow-Credentials": false,
+  //     },
+  //     body: JSON.stringify({
+  //       userInputs: {
+  //         populationSize: `${pop_size}`,
+  //         infectionRate: `${initial_infection_rate}`,
+  //         numInfected: `${initial_number_of_infected}`,
+  //         recoveryRate: `${recovery_rate}`,
+  //         timeStepsDays: `${timeStepsDays}`,
+  //       },
+  //     }),
+  //   }
+
+  await axios
+    .put(API_GATEWAY, body, {
       headers: {
-        "Content-Type": "application",
-        // Accept: "application/json",
-        // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        // "Access-Control-Allow-Credentials": false,
+        "Content-Type": "application/json",
+        //"Content-Type": "application/x-www-form-urlencoded",
+        // "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({
-        userInputs: {
-          populationSize: `${pop_size}`,
-          infectionRate: `${initial_infection_rate}`,
-          numInfected: `${initial_number_of_infected}`,
-          recoveryRate: `${recovery_rate}`,
-          timeStepsDays: `${timeStepsDays}`,
-        },
-      }),
-    }
-    // {
-    //   headers: {
-    //     // "Content-Type": "application/json;charset=UTF-8",
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     // "Access-Control-Allow-Origin": "*",
-    //   },
-    // }
-  )
+    })
     .then((response) => {
       console.log(response);
       submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
