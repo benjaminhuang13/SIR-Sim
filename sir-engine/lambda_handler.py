@@ -37,4 +37,11 @@ def lambda_handler(event, context):
         # Send the result to the output SQS queue
         sqs.send_message( QueueUrl=OUTPUT_QUEUE_URL, MessageBody=json.dumps(result) )
 
-    return results
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Origin': '*',  
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+            },
+        'body': json.dumps({'message': 'Successful execution'})
+        }
