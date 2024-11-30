@@ -18,8 +18,10 @@ def sir_simulation(int population_size, double infection_rate, int num_infected,
         num_infected = max(num_infected + new_infections - new_recoveries, 0)
         num_recovered = population_size - num_susceptible - num_infected
         
+        formatted_time = (datetime.now() + timedelta(days=day)).strftime("%Y-%m-%d %H:%M:%S.%f")
+
         results.append({
-            'time': (datetime.now() + timedelta(days=day)).isoformat(),
+            'time': formatted_time,
             'numSusceptible': num_susceptible,
             'numInfected': num_infected,
             'numRecovered': num_recovered,
