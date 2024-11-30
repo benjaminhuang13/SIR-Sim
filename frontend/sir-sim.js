@@ -1,5 +1,7 @@
 const API_GATEWAY =
   "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
+//const API_GATEWAY = "https://g7xtkr1ubg.execute-api.us-east-1.amazonaws.com";
+
 const input_form = document.getElementById("input_form_section");
 const graph_section = document.getElementById("graph_data_div");
 const submit_data_response = document.getElementById("submit_data_response");
@@ -49,45 +51,42 @@ async function submit_input(
       timeStepsDays: `${timeStepsDays}`,
     },
   });
-  // await fetch(
-  //   API_GATEWAY,
-  //   {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application",
-  //       // Accept: "application/json",
-  //       // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-  //       // "Access-Control-Allow-Credentials": false,
-  //     },
-  //     body: JSON.stringify({
-  //       userInputs: {
-  //         populationSize: `${pop_size}`,
-  //         infectionRate: `${initial_infection_rate}`,
-  //         numInfected: `${initial_number_of_infected}`,
-  //         recoveryRate: `${recovery_rate}`,
-  //         timeStepsDays: `${timeStepsDays}`,
-  //       },
-  //     }),
-  //   }
-
-  await axios
-    .put(API_GATEWAY, body, {
-      headers: {
-        "Content-Type": "application/json",
-        //"Content-Type": "application/x-www-form-urlencoded",
-        // "Access-Control-Allow-Origin": "*",
+  await fetch(API_GATEWAY, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application",
+      // Accept: "application/json",
+      // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+      // "Access-Control-Allow-Credentials": false,
+    },
+    body: JSON.stringify({
+      userInputs: {
+        populationSize: `${pop_size}`,
+        infectionRate: `${initial_infection_rate}`,
+        numInfected: `${initial_number_of_infected}`,
+        recoveryRate: `${recovery_rate}`,
+        timeStepsDays: `${timeStepsDays}`,
       },
-    })
-    .then((response) => {
-      console.log(response);
-      submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
-      console.log("Successfully posted data!");
-      fetchData();
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log("Something went wrong!");
-    });
+    }),
+  });
+  // await axios
+  //   .put(API_GATEWAY, body, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       //"Content-Type": "application/x-www-form-urlencoded",
+  //       // "Access-Control-Allow-Origin": "*",
+  //     },
+  //   })
+  //   .then((response) => {
+  //     console.log(response);
+  //     submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
+  //     console.log("Successfully posted data!");
+  //     fetchData();
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //     console.log("Something went wrong!");
+  //   });
 }
 
 // TODO;
