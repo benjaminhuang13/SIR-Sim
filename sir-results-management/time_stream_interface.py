@@ -17,14 +17,14 @@ def writeResults(region, simResults):
                                                 config=Config(region_name = region, read_timeout =20, 
                                                             max_pool_connections = 5000, retries={'max_attempts': 10}))
    dimensions = [ {'Name': 'region', 'Value': region} ]
-   database_name = DatabaseName=os.environ["DATABASE_NAME"]
-   table_name = DatabaseName=os.environ["TABLE_NAME"]
+   database_name = os.environ["DATABASE_NAME"]
+   table_name = os.environ["TABLE_NAME"]
+
+   # Convert date time to milliseconds epoch as a string
+   write_time = str(int(round(time.time() * 1000)))
 
    writeRecords = []
    for result in simResults['results']:
-
-      # Convert date time to milliseconds epoch as a string
-      write_time = str(int(round(time.time() * 1000)))
 
       sim_time = {
          'Dimensions': dimensions,
@@ -65,13 +65,14 @@ def writeResults(region, simResults):
          'MeasureValueType': 'BIGINT',
          'Time': write_time
       }
-      
+
+      write_time = write_time + 1 # workaround such that write times are unique per record
       writeRecords.extend([sim_time, num_infected, num_susceptible, num_recovered])
 
    success = False
    message = ""
    try:
-      result = write_client.write_records(DatabaseName=os.environ["DATABASE_NAME"], TableName=os.environ["TABLE_NAME"],
+      result = write_client.write_records(DatabaseName=database_name, TableName=table_name,
                Records=writeRecords, CommonAttributes={})
       logger.info("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
       success = result['ResponseMetadata']['HTTPStatusCode'] == 200
