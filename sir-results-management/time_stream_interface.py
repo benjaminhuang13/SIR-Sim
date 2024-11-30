@@ -20,14 +20,15 @@ def writeResults(region, simResults):
    for result in simResults['results']:
 
       # Convert date time to milliseconds epoch as a string
-      time = str(result['time'])
+      time = datetime.strptime(result['time'], "%Y-%m-%d %H:%M:%S.%f")
+      time_ms = int(time.timestamp() * 1000)
 
       num_infected = {
          'Dimensions': dimensions,
          'MeasureName': 'num_infected',
          'MeasureValue': str(result['numInfected']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': time_ms
       }
 
       num_susceptible = {
@@ -35,7 +36,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_susceptible',
          'MeasureValue': str(result['numSusceptible']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': time_ms
       }
 
       num_recovered = {
@@ -43,7 +44,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_recovered',
          'MeasureValue': str(result['numRecovered']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': time_ms
       }
       
       writeRecords.extend([num_infected, num_susceptible, num_recovered])
