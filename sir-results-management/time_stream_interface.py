@@ -21,7 +21,8 @@ def writeResults(region, simResults):
    table_name = os.environ["TABLE_NAME"]
 
    # Convert date time to milliseconds epoch as a string
-   write_time = str(int(round(time.time() * 1000)))
+   write_time_int = int(round(time.time() * 1000))
+   write_time = str(write_time_int)
 
    writeRecords = []
    for result in simResults['results']:
@@ -66,7 +67,9 @@ def writeResults(region, simResults):
          'Time': write_time
       }
 
-      write_time = write_time + 1 # workaround such that write times are unique per record
+      # workaround such that write times are unique per record
+      write_time_int = write_time_int + 1
+      write_time = str(write_time_int) 
       writeRecords.extend([sim_time, num_infected, num_susceptible, num_recovered])
 
    success = False
