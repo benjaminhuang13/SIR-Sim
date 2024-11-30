@@ -1,6 +1,7 @@
 import json
 import boto3
 from sir_simulation import sir_simulation
+import os
 
 # Initialize SQS client
 sqs = boto3.client('sqs')
