@@ -52,9 +52,10 @@ async function submit_input(
     },
   });
   await fetch(API_GATEWAY, {
-    method: "PUT",
+    method: "POST",
     headers: {
-      "Content-Type": "application",
+      //"Content-Type": "application",
+      "Content-Type": "application/x-www-form-urlencoded",
       // Accept: "application/json",
       // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       // "Access-Control-Allow-Credentials": false,
