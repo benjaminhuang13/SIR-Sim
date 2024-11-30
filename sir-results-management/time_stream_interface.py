@@ -3,10 +3,13 @@ import boto3
 import time
 from botocore.config import Config
 from datetime import datetime
+import logging
 
 # sources: 
 #  https://github.com/awslabs/amazon-timestream-tools/blob/mainline/sample_apps/python/SampleApplication.py
 #  https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html
+
+logger = logging.getLogger()
 
 def writeResults(region, simResults):
 
@@ -70,14 +73,14 @@ def writeResults(region, simResults):
    try:
       result = write_client.write_records(DatabaseName=os.environ["DATABASE_NAME"], TableName=os.environ["TABLE_NAME"],
                Records=writeRecords, CommonAttributes={})
-      #print("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
+      logger.info("WriteRecords Status: [%s]" % result['ResponseMetadata']['HTTPStatusCode'])
       success = result['ResponseMetadata']['HTTPStatusCode'] == 200
       message = "Success"
    except write_client.exceptions.RejectedRecordsException as err:
       _print_rejected_records_exceptions(err)
       message = "Failed to write records to time stream database."
    except Exception as err:
-      print("Error:", err)
+      logger.error("Error:", err)
       message = "Unknown error. See logger for more details."
 
    return success, message
@@ -111,7 +114,7 @@ def readResults(region, startTime, endTime):
             data = _parse_row(column_info, row)
             read_data.append(data)   
    except Exception as err:
-      print("Failed to query database", err)
+      logger.error("Failed to query database", err)
    
    results = { 
       'results' : read_data 
@@ -133,7 +136,7 @@ def _parse_row(self, column_info, row):
 
 def _parse_datum(self, info, datum):
    if datum.get('NullValue', False):
-      print("Error - null value was queried")
+      logger.error("Error - null value was queried")
       return "", 0
 
    column_type = info['Type']
@@ -142,14 +145,14 @@ def _parse_datum(self, info, datum):
    if 'ScalarType' in column_type:
       return self._parse_column_name(info), self._convert_value(info, datum['ScalarValue'])
    else:
-      print("Error - Invalid input type queried")
+      logger.error("Error - Invalid input type queried")
       return "", 0
 
 def _parse_column_name(self, info):
    if 'Name' in info:
       return info['Name']
    else:
-      print("Error - Queried column has no name")
+      logger.error("Error - Queried column has no name")
       return ""
    
 def _convert_value(self, info, str_value):
@@ -174,8 +177,8 @@ def _convert_value(self, info, str_value):
       return str_value
    
 def _print_rejected_records_exceptions(err):
-   print("RejectedRecords: ", err)
+   logger.error("RejectedRecords: ", err)
    for rr in err.response["RejectedRecords"]:
-      print("Rejected Index " + str(rr["RecordIndex"]) + ": " + rr["Reason"])
+      logger.error("Rejected Index " + str(rr["RecordIndex"]) + ": " + rr["Reason"])
       if "ExistingVersion" in rr:
-         print("Rejected record existing version: ", rr["ExistingVersion"])
+         logger.error("Rejected record existing version: ", rr["ExistingVersion"])

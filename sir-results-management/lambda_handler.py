@@ -2,8 +2,13 @@ import os
 import json
 import sqs_handler
 import time_stream_interface
+import logging
 
 def lambda_handler(event, context):
+
+   logging.basicConfig(level=logging.INFO) 
+   logger = logging.getLogger()
+
    region = os.environ["AWS_REGION"]
 
    # TODO - I don't believe we are doing batch lambdas for this.
@@ -22,6 +27,7 @@ def lambda_handler(event, context):
          'body': 'Results successfully written'
       }
    else:
+      logger.error("Failed to write to Timestream: " + errMessage)
       return {
          'statusCode': 500,
          'body': errMessage
