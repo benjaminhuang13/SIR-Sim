@@ -1,5 +1,5 @@
 const API_GATEWAY =
-  "http://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
+  "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
 const input_form = document.getElementById("input_form_section");
 const graph_section = document.getElementById("graph_data_div");
 const submit_data_response = document.getElementById("submit_data_response");
@@ -43,22 +43,22 @@ async function submit_input(
   await fetch(
     API_GATEWAY,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true,
+        // Accept: "application/json",
+        // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        // "Access-Control-Allow-Credentials": false,
       },
-      body: JSON.stringify({
-        userInputs: {
-          populationSize: `${pop_size}`,
-          infectionRate: `${initial_infection_rate}`,
-          numInfected: `${initial_number_of_infected}`,
-          recoveryRate: `${recovery_rate}`,
-          timeStepsDays: `${timeStepsDays}`,
-        },
-      }),
+      // body: JSON.stringify({
+      //   userInputs: {
+      //     populationSize: `${pop_size}`,
+      //     infectionRate: `${initial_infection_rate}`,
+      //     numInfected: `${initial_number_of_infected}`,
+      //     recoveryRate: `${recovery_rate}`,
+      //     timeStepsDays: `${timeStepsDays}`,
+      //   },
+      // }),
     }
     // {
     //   headers: {
@@ -83,27 +83,35 @@ async function submit_input(
 // TODO;
 function getData() {
   console.log("Fetching " + API_GATEWAY);
-  fetch(API_GATEWAY).then((res) => res.json());
-  saved_customers_list.appendChild(div_saved_checklist);
+  response = fetch(API_GATEWAY).then((res) => res.json());
+  console.log(response);
   graph_section.innerHTML = `<p>Got data from success_results sqs!</p>`;
 }
 
 const fetchData = async () => {
   try {
+    sleep(5000);
     const response = await axios.get(API_GATEWAY, config);
     console.log("fetching");
     console.log(response.data);
     if (response.data["message"] == "Not Found" || "No messages in the queue") {
       console.log("SQS empty");
-      return;
+      graph_section.innerHTML = `<p>sqs empty!</p>`;
+    } else {
+      // setData(response.data);
+      //setLoading(false);
+      graph_section.innerHTML = `<p>Got data from success_results sqs!</p>`;
+      var results = document.createElement(response.data["message"]);
+      graph_section.appendChild(results);
     }
-    setData(response.data);
-    setLoading(false);
-    graph_section.innerHTML = `<p>Got data from success_results sqs!</p>`;
   } catch (error) {
     //setError(error.message);
     console.log(error.message);
     graph_section.innerHTML = `<p>can't get data!</p>`;
-    setLoading(false);
+    // setLoading(false);
   }
 };
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
