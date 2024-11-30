@@ -12,7 +12,7 @@ class TestTimeStream(unittest.TestCase):
       os.environ['TABLE_NAME'] = 'results'
 
       #timeStream = time_stream_interface.timeStreamHandler('us-east-1')
-      start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+      start_time = datetime.now().timestamp() * 1000
 
       result = {
          'time': int(datetime.now().timestamp() * 1000),
