@@ -4,7 +4,7 @@ from sir_simulation import sir_simulation
 
 # Initialize SQS client
 sqs = boto3.client('sqs')
-OUTPUT_QUEUE_URL = 'https://sqs.us-east-2.amazonaws.com/851725186983/SQS_OUTPUT'
+OUTPUT_QUEUE_URL = os.environ.get('OUTPUT_QUEUE', 'errorVal')
 
 def lambda_handler(event, context):
     results = []
