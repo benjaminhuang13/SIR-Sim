@@ -1,5 +1,6 @@
 import os
 import boto3
+import time
 from botocore.config import Config
 from datetime import datetime
 
@@ -20,14 +21,14 @@ def writeResults(region, simResults):
    for result in simResults['results']:
 
       # Convert date time to milliseconds epoch as a string
-      time = str(datetime.now().timestamp() * 1000)
+      write_time = str(int(round(time.time() * 1000)))
 
       sim_time = {
          'Dimensions': dimensions,
          'MeasureName': 'sim_time',
          'MeasureValue': str(result['time']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': write_time
       }
 
       num_infected = {
@@ -35,7 +36,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_infected',
          'MeasureValue': str(result['numInfected']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': write_time
       }
 
       num_infected = {
@@ -43,7 +44,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_infected',
          'MeasureValue': str(result['numInfected']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': write_time
       }
 
       num_susceptible = {
@@ -51,7 +52,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_susceptible',
          'MeasureValue': str(result['numSusceptible']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': write_time
       }
 
       num_recovered = {
@@ -59,7 +60,7 @@ def writeResults(region, simResults):
          'MeasureName': 'num_recovered',
          'MeasureValue': str(result['numRecovered']),
          'MeasureValueType': 'BIGINT',
-         'Time': time
+         'Time': write_time
       }
       
       writeRecords.extend([sim_time, num_infected, num_susceptible, num_recovered])
