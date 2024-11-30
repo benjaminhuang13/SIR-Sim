@@ -1,56 +1,68 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-  <title>SIR-SIM</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="#">
-</head>
+  <head>
+    <title>SIR-SIM</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="#" />
+  </head>
 
-<body>
-
-  <div class="topnav">
-    <a class="logo" href="#">SIR-SIM</a>
-    <!--
+  <body>
+    <div class="topnav">
+      <a class="logo" href="#">SIR-SIM</a>
+      <!--
     <div class="search-container">
       <form role="search" id="form">
         <input type="search" id="query" name="q" placeholder="Search..">
       </form>
     </div>
     -->
-  </div>
-  <div class="introduction">
-    <h3> Welcome to this simple Epidemic Simulator! Here you can simulate the effects of certain epidemic parameters on the evolution of a disease. "SIR" stands for "Susceptible, Infected, Recovered" and is a common epidemiological model on which this simulator is based on. Keep in mind that for large population sizes >1000 the calculations can take a view seconds. After choosing a population size you start the simulation with the "Start" button. Now the simulation menu occurs and some coordinate systems.</h3>
-  </div>
+    </div>
+    <div class="introduction">
+      <h3>
+        Welcome to this simple Epidemic Simulator! Here you can simulate the
+        effects of certain epidemic parameters on the evolution of a disease.
+        "SIR" stands for "Susceptible, Infected, Recovered" and is a common
+        epidemiological model on which this simulator is based on. Keep in mind
+        that for large population sizes >1000 the calculations can take a view
+        seconds. After choosing a population size you start the simulation with
+        the "Start" button. Now the simulation menu occurs and some coordinate
+        systems.
+      </h3>
+    </div>
 
-  <section class="sections" id="input_form_section" >
-  <div class="input_wrapper" id="input_wrapper">
-    <form class = "input_form" accept-charset=utf-8>
-      <div class = "input_form_row">
-        <label for="population_size">Population size</label>
-        <input class="input_data" type="number" min="100" max="1000" id="population_size" name="population_size" autocomplete="population_size" required enterkeyhint="next">
-      </div>
-      <div class = "input_form_row">
-        <label for="initial_infection_rate">Initial Infection Rate</label>
-        <input class="input_data" type="number" step=".01" min="0" max="1" id="initial_infection_rate" name="initial_infection_rate" autocomplete="initial_infection_rate" required enterkeyhint="next"></input>
-      </div>
-      <div class = "input_form_row">
-        <label for="initial_number_of_infected">Initial Number of Infected</label>
-        <input class="input_data" type="number" step=".01"id="initial_number_of_infected" name="initial_number_of_infected" autocomplete="initial_number_of_infected" enterkeyhint="next" required>
-      </div>
-      <div class = "input_form_row">
-        <label for="recovery_rate">Recovery Rate</label>
-        <input class="input_data" type="number" step=".01" min="0" max="30" id="recovery_rate" name="recovery_rate" autocomplete="recovery_rate" enterkeyhint="next" required>
-      </div>
-      <div class = "input_form_row">
-        <button class="start_button" id = "start_button">START</button>
-      </div>
-      <div class = "input_form_row" id="submit_data_response"></div>
-    </form>
-  </div>
-  </section>
-  <section class="sections" id="graph_section" ></section>
-  <div style="padding-left:16px">
+    <section class="sections" id="input_form_section" >
+    <div class="input_wrapper" id="input_wrapper">
+      <form class = "input_form" accept-charset=utf-8>
+        <div class = "input_form_row">
+          <label for="population_size">Population size</label>
+          <input class="input_data" type="number" min="100" max="1000" id="population_size" name="population_size" autocomplete="population_size" required enterkeyhint="next">
+        </div>
+        <div class = "input_form_row">
+          <label for="initial_infection_rate">Initial Infection Rate</label>
+          <input class="input_data" type="number" step=".01" min="0" max="1" id="initial_infection_rate" name="initial_infection_rate" autocomplete="initial_infection_rate" required enterkeyhint="next"></input>
+        </div>
+        <div class = "input_form_row">
+          <label for="initial_number_of_infected">Initial Number of Infected</label>
+          <input class="input_data" type="number" step=".01"id="initial_number_of_infected" name="initial_number_of_infected" autocomplete="initial_number_of_infected" enterkeyhint="next" required>
+        </div>
+        <div class = "input_form_row">
+          <label for="recovery_rate">Recovery Rate</label>
+          <input class="input_data" type="number" step=".01" min="0" max="30" id="recovery_rate" name="recovery_rate" autocomplete="recovery_rate" enterkeyhint="next" required>
+        </div>
+        <div class = "input_form_row">
+          <label for="timeStepsDays">Time Step Days</label>
+          <input class="input_data" type="number" min="1" max="50" id="timeStepsDays" name="timeStepsDays" autocomplete="timeStepsDays" enterkeyhint="next" required>
+        </div>
+        <div class = "input_form_row">
+          <button class="start_button" id = "start_button">START</button>
+        </div>
+        <div class = "input_form_row" id="submit_data_response"></div>
+      </form>
+    </div>
+    </section>
+
+    <section class="sections" id="graph_section"></section>
     <script type="importmap">
       {
         "imports": {
@@ -58,7 +70,9 @@
         }
       }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script type="module" src="sir-sim.js"></script>
-</body>
+          
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>     
+    <script src="sir-sim.js"></script>
+
+  </body>
 </html>
