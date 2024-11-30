@@ -20,7 +20,7 @@ def writeResults(region, simResults):
    for result in simResults['results']:
 
       # Convert date time to milliseconds epoch as a string
-      time = datetime.now().timestamp() * 1000
+      time = str(datetime.now().timestamp() * 1000)
 
       sim_time = {
          'Dimensions': dimensions,
