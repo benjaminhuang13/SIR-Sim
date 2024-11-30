@@ -80,7 +80,7 @@ def writeResults(region, simResults):
       _print_rejected_records_exceptions(err)
       message = "Failed to write records to time stream database."
    except Exception as err:
-      logger.error("Error:", err)
+      logger.error("Error occurred during write records.", exc_info=err)
       message = "Unknown error. See logger for more details."
 
    return success, message
