@@ -1,5 +1,7 @@
 # SIR-Sim
 
+Webapp hosted on AWS using serverless services. The webapp simulate the effects of certain epidemic parameters on the evolution of a disease. "SIR" stands for "Susceptible, Infected, Recovered" and is a common epidemiological model on which this simulator is based on.
+
 ![diagram](/diagram.png)
 
 ## sir-engine
