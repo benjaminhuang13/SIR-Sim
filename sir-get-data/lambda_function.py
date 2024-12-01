@@ -11,7 +11,7 @@ def lambda_handler(event, context):
         response = sqs_client.receive_message(
             QueueUrl=results_success_queue,
             MaxNumberOfMessages=10,  # Retrieve X messages at a time
-            WaitTimeSeconds=5   # Long polling max 20 seconds
+            WaitTimeSeconds=7   # Long polling max 20 seconds
         )
         print('response: {}'.format(response))
         if 'Messages' not in response:

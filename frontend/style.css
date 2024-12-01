@@ -163,3 +163,8 @@ input {
   vertical-align: middle;
   display: table-cell;
 }
+
+#myChart {
+  width: 200px;
+  max-width: 400px;
+}

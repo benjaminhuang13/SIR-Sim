@@ -40,6 +40,8 @@ async function submit_input(
   recovery_rate,
   timeStepsDays
 ) {
+  graph_section.innerHTML = "";
+  graph_section_msg.innerHTML = "";
   console.log("Sending user data!");
   body = JSON.stringify({
     userInputs: {
@@ -70,32 +72,99 @@ async function submit_input(
 }
 
 const fetchData = async () => {
-  try {
-    console.log("fetching...");
-    sleep(2000);
-    const response = await axios.get(API_GATEWAY, config);
-    console.log("data: " + response.data);
-    if (response.data["message"] == "Message retrieved from SQS") {
-      graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
-      fade_element(graph_section_msg);
-      var results = document.createElement(response.data["message"]);
-      graph_section.appendChild(results);
-    } else if (
-      response.data["message"] == "Not Found" ||
-      response.data["message"] == "No messages in the queue"
-    ) {
-      console.log("SQS empty");
-      graph_section_msg.innerHTML = `<p>sqs empty!</p>`;
-      fade_element(graph_section_msg);
-    } else {
-      print("Unknown response?");
-    }
-  } catch (error) {
-    //setError(error.message);
-    console.log(error.message);
-    graph_section.innerHTML = `<p>No data!</p>`;
-    // setLoading(false);
-  }
+  console.log("fetching...");
+  sleep(2000);
+  const response = await axios
+    .get(API_GATEWAY, config)
+    .then((response) => {
+      console.log("fetched data: " + response.data["data"]);
+      if (response.data["message"] == "Message retrieved from SQS") {
+        console.log("Response Status:", response.status);
+
+        const data = JSON.parse(JSON.parse(response.data["data"]))["results"];
+        graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
+        fade_element(graph_section_msg);
+        // var display_results = document.createElement("p");   // for displaying the results in text form
+        // display_results.textContent = JSON.stringify(data);
+        // graph_section.appendChild(display_results);
+
+        // Convert the time from Unix timestamp to a Date object and prepare the chart data
+        const labels = data.map((entry) =>
+          new Date(entry.time * 1000).toLocaleString()
+        ); // Convert Unix time to Date
+        const susceptibleData = data.map((entry) => entry.numSusceptible);
+        const infectedData = data.map((entry) => entry.numInfected);
+        const recoveredData = data.map((entry) => entry.numRecovered);
+        // Dynamically create the canvas element
+        const canvas = document.createElement("canvas");
+        canvas.width = 400;
+        canvas.height = 200;
+        canvas.id = "myChart";
+        graph_section.appendChild(canvas);
+        // Create chart
+        const ctx = document.getElementById("myChart").getContext("2d");
+        const myChart = new Chart(ctx, {
+          type: "line", // Type of chart
+          data: {
+            labels: labels, // X-axis labels (time)
+            datasets: [
+              {
+                label: "Susceptible",
+                data: susceptibleData, // Data for Susceptible
+                borderColor: "blue",
+                fill: false,
+                tension: 0.1,
+              },
+              {
+                label: "Infected",
+                data: infectedData, // Data for Infected
+                borderColor: "red",
+                fill: false,
+                tension: 0.1,
+              },
+              {
+                label: "Recovered",
+                data: recoveredData, // Data for Recovered
+                borderColor: "green",
+                fill: false,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              x: {
+                type: "category",
+                title: {
+                  display: true,
+                  text: "Time",
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Count",
+                },
+              },
+            },
+          },
+        });
+      } else if (
+        response.data["message"] == "Not Found" ||
+        response.data["message"] == "No messages in the queue"
+      ) {
+        console.log("SQS empty");
+        graph_section_msg.innerHTML = `<p>sqs empty!</p>`;
+        fade_element(graph_section_msg);
+      } else {
+        print("Unknown response?");
+      }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      graph_section.innerHTML = `<p>No data!</p>`;
+    });
 };
 
 function sleep(ms) {
@@ -111,6 +180,6 @@ function fade_element(element) {
     }
     element.style.opacity = op;
     element.style.filter = "alpha(opacity=" + op * 100 + ")";
-    op -= op * 0.1;
+    op -= op * 0.2;
   }, 100);
 }
