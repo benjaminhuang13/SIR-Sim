@@ -1,0 +1,30 @@
+## Create SQS Queues:
+
+- Input queue for receiving simulation requests
+- Output queue for simulation results
+- Set environment variable (in lambda_handler.py for now) for OUTPUT_QUEUE_URL
+
+Create ECR and Lambda Function:
+
+1. Create ECR and click the "View Push Commands"
+2. Build the sir-engine Dockerfile, tag, push it to new ECR
+3. Create lambda from the ECR image. NOTE: Docker buildx >= 0.1.0 makes a manifest (several images). Pick the one that works :-)
+4. Set lambda execution role with `AmazonSQSFullAccess` permissions
+5. Configure SQS input queue as trigger
+
+## Test:
+
+Test lambda using `sir-engine-test.json`
+Test SQS -> Lambda -> SQS pipeline by giving the input SQS the following json (simulated output from frontend):
+
+```
+{
+    "userInputs": {
+            "populationSize": 100,
+            "infectionRate": 0.05,
+            "numInfected": 10,
+            "recoveryRate": 0.01,
+            "timeStepsDays": 3
+        }
+}
+```
