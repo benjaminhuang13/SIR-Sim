@@ -3,6 +3,7 @@ const API_GATEWAY =
 //const API_GATEWAY = "https://g7xtkr1ubg.execute-api.us-east-1.amazonaws.com";
 
 const input_form = document.getElementById("input_form_section");
+const graph_section_msg = document.getElementById("graph_data_msg");
 const graph_section = document.getElementById("graph_data_div");
 const submit_data_response = document.getElementById("submit_data_response");
 const start_button = document.getElementById("start_button");
@@ -69,7 +70,8 @@ async function submit_input(
     .then((response) => {
       console.log(response);
       submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
-      console.log("Successfully posted data!");
+      fade_element(submit_data_response);
+      console.log("Successfully sent data!");
       fetchData();
     })
     .catch((error) => {
@@ -83,7 +85,8 @@ function getData() {
   console.log("Fetching " + API_GATEWAY);
   response = fetch(API_GATEWAY).then((res) => res.json());
   console.log(response);
-  graph_section.innerHTML = `<p>Got data from success_results sqs!</p>`;
+  graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
+  fade_element(graph_section_msg);
 }
 
 const fetchData = async () => {
@@ -94,11 +97,13 @@ const fetchData = async () => {
     console.log(response.data);
     if (response.data["message"] == "Not Found" || "No messages in the queue") {
       console.log("SQS empty");
-      graph_section.innerHTML = `<p>sqs empty!</p>`;
+      graph_section_msg.innerHTML = `<p>sqs empty!</p>`;
+      fade_element(graph_section_msg);
     } else {
       // setData(response.data);
       //setLoading(false);
-      graph_section.innerHTML = `<p>Got data from success_results sqs!</p>`;
+      graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
+      fade_element(graph_section_msg);
       var results = document.createElement(response.data["message"]);
       graph_section.appendChild(results);
     }
@@ -112,4 +117,17 @@ const fetchData = async () => {
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function fade_element(element) {
+  var op = 1; // initial opacity
+  var timer = setInterval(function () {
+    if (op <= 0.1) {
+      clearInterval(timer);
+      element.style.display = "none";
+    }
+    element.style.opacity = op;
+    element.style.filter = "alpha(opacity=" + op * 100 + ")";
+    op -= op * 0.1;
+  }, 100);
 }
