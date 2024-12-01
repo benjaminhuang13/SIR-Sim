@@ -2,13 +2,6 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
-test_event = {
-    "api": "post",
-    "pop_size": "555",
-    "initial_infection_rate": "1",
-    "initial_number_of_infected": "1",
-    "recovery_rate": "1"
-}
 results_success_queue  = "https://sqs.us-east-1.amazonaws.com/471112517107/results-success"
 sqs_client = boto3.client("sqs")
 
@@ -17,8 +10,8 @@ def lambda_handler(event, context):
         # Receive a message from the SQS queue
         response = sqs_client.receive_message(
             QueueUrl=results_success_queue,
-            MaxNumberOfMessages=10,  # Retrieve one message at a time
-            WaitTimeSeconds=1      # Long polling for 10 seconds
+            MaxNumberOfMessages=10,  # Retrieve X messages at a time
+            WaitTimeSeconds=5   # Long polling max 20 seconds
         )
         print('response: {}'.format(response))
         if 'Messages' not in response:

@@ -24,3 +24,8 @@ _How to create HTTP API Gateway_
 7. Click `Create and attach an integration`. Select Lambda for `Integration target type`
 8. Choose region `us-east-1` and search for the right lambda function.
 9. Leave the `Grant API Gateway permission to invoke your Lambda function` enabled.
+
+10. Go to `CORS` under `Develop`.
+11. For Access-Control-Allow-Origin, add `*` and `http://sir-sim.com.s3-website-us-east-1.amazonaws.com/`.
+12. For Access-Control-Allow-Methods, add `GET` and `POST`.
+13. for Access-Control-Allow-Headers, add `content-type, origin, authorization, accept, x-requested-with, access-control-request-method, access-control-request-headers, access-control-allow-headers` (you can play around with this)

@@ -1,7 +1,5 @@
 const API_GATEWAY =
   "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
-//const API_GATEWAY = "https://g7xtkr1ubg.execute-api.us-east-1.amazonaws.com";
-
 const input_form = document.getElementById("input_form_section");
 const graph_section_msg = document.getElementById("graph_data_msg");
 const graph_section = document.getElementById("graph_data_div");
@@ -52,15 +50,6 @@ async function submit_input(
       timeStepsDays: `${timeStepsDays}`,
     },
   });
-  // use fetch
-  // await fetch(API_GATEWAY, {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "application/javascript",
-  //   },
-  //   body,
-  // });
-  // use axios
   await axios
     .put(API_GATEWAY, body, {
       headers: {
@@ -71,46 +60,40 @@ async function submit_input(
       console.log(response);
       submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
       fade_element(submit_data_response);
-      console.log("Successfully sent data!");
+      console.log("Successfully sent data :)");
       fetchData();
     })
     .catch((error) => {
       console.log(error);
-      console.log("Something went wrong!");
+      console.log("Error sending data :(");
     });
-}
-
-// TODO;
-function getData() {
-  console.log("Fetching " + API_GATEWAY);
-  response = fetch(API_GATEWAY).then((res) => res.json());
-  console.log(response);
-  graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
-  fade_element(graph_section_msg);
 }
 
 const fetchData = async () => {
   try {
-    sleep(5000);
+    console.log("fetching...");
+    sleep(2000);
     const response = await axios.get(API_GATEWAY, config);
-    console.log("fetching");
-    console.log(response.data);
-    if (response.data["message"] == "Not Found" || "No messages in the queue") {
-      console.log("SQS empty");
-      graph_section_msg.innerHTML = `<p>sqs empty!</p>`;
-      fade_element(graph_section_msg);
-    } else {
-      // setData(response.data);
-      //setLoading(false);
+    console.log("data: " + response.data);
+    if (response.data["message"] == "Message retrieved from SQS") {
       graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
       fade_element(graph_section_msg);
       var results = document.createElement(response.data["message"]);
       graph_section.appendChild(results);
+    } else if (
+      response.data["message"] == "Not Found" ||
+      response.data["message"] == "No messages in the queue"
+    ) {
+      console.log("SQS empty");
+      graph_section_msg.innerHTML = `<p>sqs empty!</p>`;
+      fade_element(graph_section_msg);
+    } else {
+      print("Unknown response?");
     }
   } catch (error) {
     //setError(error.message);
     console.log(error.message);
-    graph_section.innerHTML = `<p>can't get data!</p>`;
+    graph_section.innerHTML = `<p>No data!</p>`;
     // setLoading(false);
   }
 };
