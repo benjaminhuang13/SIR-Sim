@@ -1,0 +1,45 @@
+{
+  "version": "2.0",
+  "routeKey": "PUT /sirsim/data",
+  "rawPath": "/prd/sirsim/data",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "accept-encoding": "gzip, deflate, br, zstd",
+    "accept-language": "en-US,en;q=0.5",
+    "content-length": "120",
+    "content-type": "application/json",
+    "host": "gp8rnrotf4.execute-api.us-east-1.amazonaws.com",
+    "origin": "http://sir-sim.com.s3-website-us-east-1.amazonaws.com",
+    "priority": "u=0",
+    "referer": "http://sir-sim.com.s3-website-us-east-1.amazonaws.com/",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "cross-site",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
+    "x-amzn-trace-id": "Root=1-674cde61-30ae29344c88bed12a3426bd",
+    "x-forwarded-for": "108.21.59.23",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https"
+  },
+  "requestContext": {
+    "accountId": "471112517107",
+    "apiId": "gp8rnrotf4",
+    "domainName": "gp8rnrotf4.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "gp8rnrotf4",
+    "http": {
+      "method": "PUT",
+      "path": "/prd/sirsim/data",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "108.21.59.23",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0"
+    },
+    "requestId": "CIevWjqaIAMEZRQ=",
+    "routeKey": "PUT /sirsim/data",
+    "stage": "prd",
+    "time": "01/Dec/2024:22:08:33 +0000",
+    "timeEpoch": 1733090913826
+  },
+  "body": "{\"userInputs\":{\"populationSize\":\"1000\",\"infectionRate\":\"2\",\"numInfected\":\"100\",\"recoveryRate\":\"5\",\"timeStepsDays\":\"10\"}}",
+  "isBase64Encoded": false
+}
