@@ -51,47 +51,31 @@ async function submit_input(
       timeStepsDays: `${timeStepsDays}`,
     },
   });
-  body = JSON.stringify({
-    userInputs: {
-      populationSize: `${pop_size}`,
-      infectionRate: `${initial_infection_rate}`,
-      numInfected: `${initial_number_of_infected}`,
-      recoveryRate: `${recovery_rate}`,
-      timeStepsDays: `${timeStepsDays}`,
-    },
-  });
-  body =
-    '{"userInputs": {"populationSize": 100, "infectionRate": 0.3, "numInfected": 100, "recoveryRate": 0.1, "timeStepsDays": 3}}';
-  await fetch(API_GATEWAY, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/javascript",
-      //"Content-Type": "application/x-www-form-urlencoded",
-      // Accept: "application/json",
-      // "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-      // "Access-Control-Allow-Credentials": false,
-    },
-    body,
-  });
-
-  // await axios
-  //   .put(API_GATEWAY, body, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       //"Content-Type": "application/x-www-form-urlencoded",
-  //       // "Access-Control-Allow-Origin": "*",
-  //     },
-  //   })
-  //   .then((response) => {
-  //     console.log(response);
-  //     submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
-  //     console.log("Successfully posted data!");
-  //     fetchData();
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //     console.log("Something went wrong!");
-  //   });
+  // use fetch
+  // await fetch(API_GATEWAY, {
+  //   method: "PUT",
+  //   headers: {
+  //     "Content-Type": "application/javascript",
+  //   },
+  //   body,
+  // });
+  // use axios
+  await axios
+    .put(API_GATEWAY, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response);
+      submit_data_response.innerHTML = `<p>Successfully submitted data!</p>`;
+      console.log("Successfully posted data!");
+      fetchData();
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("Something went wrong!");
+    });
 }
 
 // TODO;
