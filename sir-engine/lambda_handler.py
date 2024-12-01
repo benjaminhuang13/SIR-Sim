@@ -9,38 +9,38 @@ OUTPUT_QUEUE_URL = os.environ.get('OUTPUT_QUEUE', 'errorVal')
 
 def lambda_handler(event, context):
     try:
-        print(event)
+        print("event: {}".format(event))
         results = []
-        for record in event['Records']:
-            body = json.loads(record['body'])  # Parse the message body
-            if not body:
-                print(f"Warning: Empty body in record: {record}")
-                continue
-            user_inputs = body.get('userInputs')
+        body = json.loads(event['body'])  # Parse the message body
+        if not body:
+            print(f"Warning: Empty body in record: {event}")
+        else:
+            print("body: {}".format(body))
+        user_inputs = body['userInputs']
 
-            try:
-                population_size = user_inputs['populationSize']
-                infection_rate = user_inputs['infectionRate']
-                num_infected = user_inputs['numInfected']
-                recovery_rate = user_inputs['recoveryRate']
-                time_steps = user_inputs['timeStepsDays']
-            except:
-                if user_inputs:
-                    result = { "results": f"malformed input: {user_inputs}" }
-                    results.append(result)
-                    continue
-                else:
-                    result = { "results": f"malformed input: key 'user_inputs' not found in input json" }
-                    results.append(result)
-                    continue
+        try:
+            population_size = int(user_inputs['populationSize'])
+            infection_rate = float(user_inputs['infectionRate'])
+            num_infected = float(user_inputs['numInfected'])
+            recovery_rate = float(user_inputs['recoveryRate'])
+            time_steps = int(user_inputs['timeStepsDays'])
+        except:
+            if user_inputs:
+                result = { "results": f"malformed input: {user_inputs}" }
+                results.append(result)
+                print("malformed input: {}".format(user_inputs))
+            else:
+                result = { "results": f"malformed input: key 'user_inputs' not found in input json" }
+                results.append(result)
+                print("malformed input: key 'user_inputs' not found in input jso")
 
-            # Run SIR simulation
-            sim_results = sir_simulation(population_size, infection_rate, num_infected, recovery_rate, time_steps)
-            result = { "results": sim_results }
-            results.append(result)
+        # Run SIR simulation
+        sim_results = sir_simulation(population_size, infection_rate, num_infected, recovery_rate, time_steps)
+        result = { "results": sim_results }
+        results.append(result)
 
-            # Send the result to the output SQS queue
-            sqs.send_message( QueueUrl=OUTPUT_QUEUE_URL, MessageBody=json.dumps(result) )
+        # Send the result to the output SQS queue
+        sqs.send_message( QueueUrl=OUTPUT_QUEUE_URL, MessageBody=json.dumps(result) )
 
         return {
             'statusCode': 200,
