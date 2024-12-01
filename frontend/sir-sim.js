@@ -97,8 +97,8 @@ const fetchData = async () => {
         const recoveredData = data.map((entry) => entry.numRecovered);
         // Dynamically create the canvas element
         const canvas = document.createElement("canvas");
-        canvas.width = 400;
-        canvas.height = 200;
+        canvas.width = 500;
+        canvas.height = 300;
         canvas.id = "myChart";
         graph_section.appendChild(canvas);
         // Create chart

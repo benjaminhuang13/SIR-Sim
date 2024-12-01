@@ -38,7 +38,8 @@ def lambda_handler(event, context):
         sim_results = sir_simulation(population_size, infection_rate, num_infected, recovery_rate, time_steps)
         result = { "results": sim_results }
         results.append(result)
-
+        print('result: {}'.format(result))
+        print('results: {}'.format(results))
         # Send the result to the output SQS queue
         sqs.send_message( QueueUrl=OUTPUT_QUEUE_URL, MessageBody=json.dumps(result) )
 
