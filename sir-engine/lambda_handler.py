@@ -9,6 +9,7 @@ OUTPUT_QUEUE_URL = os.environ.get('OUTPUT_QUEUE', 'errorVal')
 
 def lambda_handler(event, context):
     try:
+        print(event)
         results = []
         for record in event['Records']:
             body = json.loads(record['body'])  # Parse the message body
@@ -47,16 +48,16 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': '*',  
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
                 },
-            'body': json.dumps({'message': 'Successful execution'})
+            'body': json.dumps({'message': 'Successful execution!'})
             }
     except Exception as e:        
-        print('something wrong happened: {}'.format(e))
+        print('Something wrong happened: {}'.format(e))
         return {
-            'statusCode': 204,
+            'statusCode': 500,
             'headers': {
                 'Access-Control-Allow-Origin': '*',  
                 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
                 },
-            'body': json.dumps({'message': 'something wrong happened, check logs'})
+            'body': json.dumps({'message': 'Something wrong happened, check logs'})
             }
     
