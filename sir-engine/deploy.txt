@@ -19,10 +19,10 @@ Test lambda using `sir-engine-test.json`
 Test SQS -> Lambda -> SQS pipeline by giving the input SQS the following json (simulated output from frontend):
 {
     "userInputs": {
-        "populationSize": 1000,
+        "populationSize": 100,
         "infectionRate": 0.05,
         "numInfected": 10,
         "recoveryRate": 0.01,
-        "timeStepsDays": 30
+        "timeStepsDays": 3
     }
 }
