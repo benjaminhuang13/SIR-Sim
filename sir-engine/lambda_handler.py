@@ -21,7 +21,7 @@ def lambda_handler(event, context):
         try:
             population_size = int(user_inputs['populationSize'])
             infection_rate = float(user_inputs['infectionRate'])
-            num_infected = float(user_inputs['numInfected'])
+            num_infected = int(user_inputs['numInfected'])
             recovery_rate = float(user_inputs['recoveryRate'])
             time_steps = int(user_inputs['timeStepsDays'])
         except:
