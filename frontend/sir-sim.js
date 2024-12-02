@@ -5,6 +5,7 @@ const graph_section_msg = document.getElementById("graph_data_msg");
 const graph_data_div = document.getElementById("graph_data_div");
 const submit_data_response = document.getElementById("submit_data_response");
 const start_button = document.getElementById("start_button");
+const test_button = document.getElementById("test_button");
 
 start_button.addEventListener("click", (e) => {
   const population_size = document.getElementById("population_size");
@@ -25,6 +26,33 @@ start_button.addEventListener("click", (e) => {
     recovery_rate.value,
     timeStepsDays.value
   );
+});
+
+// test
+test_button.addEventListener("click", (e) => {
+  const population_size = document.getElementById("population_size");
+  const initial_infection_rate = document.getElementById(
+    "initial_infection_rate"
+  );
+  const initial_number_of_infected = document.getElementById(
+    "initial_number_of_infected"
+  );
+  const recovery_rate = document.getElementById("recovery_rate");
+  const timeStepsDays = document.getElementById("timeStepsDays");
+  e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
+  console.log("start button clicked!");
+  for (i = 0; i++; i < 1000) {
+    setTimeout(() => {
+      console.log("Wait for 2 seconds");
+    }, 2000);
+    submit_input(
+      population_size.value,
+      initial_infection_rate.value,
+      initial_number_of_infected.value,
+      recovery_rate.value,
+      timeStepsDays.value
+    );
+  }
 });
 
 config = {

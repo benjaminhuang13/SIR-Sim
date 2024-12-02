@@ -101,6 +101,10 @@ input {
   margin-top: 10px;
 }
 
+.input_wrapper .test_button {
+  margin-top: 10px;
+}
+
 .input_wrapper input {
   padding: 0.3em;
   width: 70px;
@@ -150,6 +154,34 @@ input {
 }
 
 .start_button:active {
+  background-color: #1697ff;
+  box-shadow: 0 4px #808080;
+  transform: translateY(4px);
+}
+
+#start_button_div {
+  height: 50px;
+  margin: 0px;
+}
+
+.test_button {
+  margin: 0 auto;
+  position: relative;
+  width: 80px;
+  height: 30px;
+  vertical-align: middle;
+  border: none;
+  color: #002d72;
+  font-weight: bold;
+  box-shadow: 0 6px #999;
+}
+
+.test_button:hover {
+  background-color: #1697ff;
+  cursor: pointer;
+}
+
+.test_button:active {
   background-color: #1697ff;
   box-shadow: 0 4px #808080;
   transform: translateY(4px);
