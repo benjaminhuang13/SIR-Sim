@@ -27,5 +27,5 @@ _How to create HTTP API Gateway_
 
 10. Go to `CORS` under `Develop`.
 11. For Access-Control-Allow-Origin, add `*` and `http://sir-sim.com.s3-website-us-east-1.amazonaws.com/`.
-12. For Access-Control-Allow-Methods, add `GET` and `POST`.
+12. For Access-Control-Allow-Methods, add `GET`, `POST`, and `OPTIONS`.
 13. for Access-Control-Allow-Headers, add `content-type, origin, authorization, accept, x-requested-with, access-control-request-method, access-control-request-headers, access-control-allow-headers` (you can play around with this)

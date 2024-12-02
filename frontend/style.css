@@ -29,7 +29,7 @@ a {
 }
 .introduction {
   width: 80vw;
-  min-width: 500px;
+  min-width: 300px;
   margin: auto;
 }
 .sections {
@@ -203,4 +203,16 @@ input {
 .graph_chart_div {
   display: block;
   margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 1rem;
+  }
+  #graph_data_div {
+    display: block;
+  }
+  #graph_section {
+    width: 520px;
+  }
 }

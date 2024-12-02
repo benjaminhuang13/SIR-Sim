@@ -36,11 +36,11 @@
     <div class="input_wrapper" id="input_wrapper">
       <form class = "input_form" accept-charset=utf-8>
         <div class = "input_form_row">
-          <label for="population_size">Population size</label>
+          <label for="population_size">Population size(100 - 5000)</label>
           <input class="input_data" type="number" min="100" max="1000" id="population_size" name="population_size" autocomplete="population_size" required enterkeyhint="next">
         </div>
         <div class = "input_form_row">
-          <label for="initial_infection_rate">Initial Infection Rate</label>
+          <label for="initial_infection_rate">Initial Infection Rate(0-1)</label>
           <input class="input_data" type="number" step=".01" min="0" max="1" id="initial_infection_rate" name="initial_infection_rate" autocomplete="initial_infection_rate" required enterkeyhint="next"></input>
         </div>
         <div class = "input_form_row">
@@ -48,7 +48,7 @@
           <input class="input_data" type="number" id="initial_number_of_infected" name="initial_number_of_infected" autocomplete="initial_number_of_infected" enterkeyhint="next" required>
         </div>
         <div class = "input_form_row">
-          <label for="recovery_rate">Recovery Rate</label>
+          <label for="recovery_rate">Recovery Rate(0-30)</label>
           <input class="input_data" type="number" step=".01" min="0" max="30" id="recovery_rate" name="recovery_rate" autocomplete="recovery_rate" enterkeyhint="next" required>
         </div>
         <div class = "input_form_row">
