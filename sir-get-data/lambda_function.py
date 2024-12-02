@@ -23,7 +23,7 @@ def lambda_handler(event, context):
                 },
                 'body': json.dumps({'message': 'No messages in the queue'})
             }
-        message = response['Messages'][0]
+        message = response['Messages'][-1]
         message_body = message['Body']
         # Delete the message from the queue after processing
         del_res = sqs_client.delete_message(
