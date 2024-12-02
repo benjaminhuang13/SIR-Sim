@@ -76,7 +76,6 @@ async function submit_input(
 
 const fetchData = async () => {
   console.log("fetching...");
-  sleep(2000);
   const response = await axios
     .get(API_GATEWAY, config)
     .then((response) => {
