@@ -41,8 +41,9 @@ test_button.addEventListener("click", (e) => {
   const timeStepsDays = document.getElementById("timeStepsDays");
   e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
   console.log("start button clicked!");
-  for (i = 0; i++; i < 1000) {
-    sleep(1000);
+  for (let i = 0; i < 1000; i++) {
+    sleep(1500);
+    console.log("iteration: " + i);
     submit_input(
       population_size.value,
       initial_infection_rate.value,
