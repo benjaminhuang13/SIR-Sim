@@ -80,8 +80,10 @@ const fetchData = async () => {
       console.log("fetched data: " + response.data["data"]);
       if (response.data["message"] == "Message retrieved from SQS") {
         console.log("Response Status:", response.status);
+        console.log(typeof response.data["data"]);
+        console.log(typeof response.data["data"]["results"]);
 
-        const data = JSON.parse(JSON.parse(response.data["data"]))["results"];
+        const data = JSON.parse(response.data["data"])["results"];
         graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
         fade_element(graph_section_msg);
         // var display_results = document.createElement("p");   // for displaying the results in text form
