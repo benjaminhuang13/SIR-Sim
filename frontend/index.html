@@ -55,7 +55,7 @@
           <label for="timeStepsDays">Time Step Days</label>
           <input class="input_data" type="number" min="1" max="50" id="timeStepsDays" name="timeStepsDays" autocomplete="timeStepsDays" enterkeyhint="next" required>
         </div>
-        <div class = "input_form_row">
+        <div class = "input_form_row" id="start_button_div">
           <button class="start_button" id = "start_button">START</button>
         </div>
         <div class = "input_form_row" id="submit_data_response"></div>
@@ -64,9 +64,18 @@
     </section>
 
     <section class="sections" id="graph_section">
-      <div class = "input_form_row" id="graph_data_msg"></div>
-      <div class = "input_form_row" id="graph_data_div"></div>
+      <div class = "graph_section_div" id="graph_data_msg"></div>
+      <div class = "graph_section_div" id="graph_data_div">
+      </div>
     </section>
+    <footer style="text-align:center;">
+      <!-- GitHub Icon and Link -->
+      <a href="https://github.com/benjaminhuang13/SIR-Sim/tree/main" target="_blank">
+          <i class="fab fa-github"></i>
+      </a>
+      <!-- Copyright Text with Dynamic Year -->
+      <p>&copy; <span id="year"></span> SIR-SIM. All rights reserved.</p>
+  </footer>
     <script type="importmap">
       {
         "imports": {
@@ -78,6 +87,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="sir-sim.js"></script>
-
+    <script>
+      // Set dynamic year in copyright
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>

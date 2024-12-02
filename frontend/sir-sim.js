@@ -2,7 +2,10 @@ const API_GATEWAY =
   "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
 const input_form = document.getElementById("input_form_section");
 const graph_section_msg = document.getElementById("graph_data_msg");
-const graph_section = document.getElementById("graph_data_div");
+const graph_data_div = document.getElementById("graph_data_div");
+const graph_chart1 = document.getElementById("graph_chart1");
+const graph_chart2 = document.getElementById("graph_chart2");
+
 const submit_data_response = document.getElementById("submit_data_response");
 const start_button = document.getElementById("start_button");
 
@@ -40,7 +43,7 @@ async function submit_input(
   recovery_rate,
   timeStepsDays
 ) {
-  graph_section.innerHTML = "";
+  graph_data_div.innerHTML = "";
   graph_section_msg.innerHTML = "";
   console.log("Sending user data!");
   body = JSON.stringify({
@@ -80,73 +83,117 @@ const fetchData = async () => {
       console.log("fetched data: " + response.data["data"]);
       if (response.data["message"] == "Message retrieved from SQS") {
         console.log("Response Status:", response.status);
-        console.log(typeof response.data["data"]);
-        console.log(typeof response.data["data"]["results"]);
-
         const data = JSON.parse(response.data["data"])["results"];
         graph_section_msg.innerHTML = `<p>Got data from success_results sqs!</p>`;
         fade_element(graph_section_msg);
-        // var display_results = document.createElement("p");   // for displaying the results in text form
-        // display_results.textContent = JSON.stringify(data);
-        // graph_section.appendChild(display_results);
-
-        // Convert the time from Unix timestamp to a Date object and prepare the chart data
         const labels = data.map((entry) =>
-          new Date(entry.time * 1000).toLocaleString()
-        ); // Convert Unix time to Date
+          new Date(entry.time * 1000).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        );
         const susceptibleData = data.map((entry) => entry.numSusceptible);
         const infectedData = data.map((entry) => entry.numInfected);
         const recoveredData = data.map((entry) => entry.numRecovered);
+
         // Dynamically create the canvas element
-        const canvas = document.createElement("canvas");
-        canvas.width = 500;
-        canvas.height = 300;
-        canvas.id = "myChart";
-        graph_section.appendChild(canvas);
+        const canvas1 = document.createElement("canvas");
+        canvas1.width = 450;
+        canvas1.height = 300;
+        canvas1.id = "susceptibleChart";
+        const canvas2 = document.createElement("canvas");
+        canvas2.width = 450;
+        canvas2.height = 300;
+        canvas2.id = "infectedRecoveredChart";
+        graph_data_div.appendChild(canvas1);
+        graph_data_div.appendChild(canvas2);
         // Create chart
-        const ctx = document.getElementById("myChart").getContext("2d");
-        const myChart = new Chart(ctx, {
-          type: "line", // Type of chart
+        const ctx1 = document
+          .getElementById("susceptibleChart")
+          .getContext("2d");
+        new Chart(ctx1, {
+          type: "line",
           data: {
-            labels: labels, // X-axis labels (time)
+            labels: labels,
             datasets: [
               {
                 label: "Susceptible",
-                data: susceptibleData, // Data for Susceptible
-                borderColor: "blue",
-                fill: false,
-                tension: 0.1,
-              },
-              {
-                label: "Infected",
-                data: infectedData, // Data for Infected
-                borderColor: "red",
-                fill: false,
-                tension: 0.1,
-              },
-              {
-                label: "Recovered",
-                data: recoveredData, // Data for Recovered
-                borderColor: "green",
-                fill: false,
+                data: susceptibleData,
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                fill: true,
                 tension: 0.1,
               },
             ],
           },
           options: {
-            responsive: true,
             scales: {
+              y: {
+                type: "logarithmic",
+                title: {
+                  display: true,
+                  text: "Number of Susceptible Individuals",
+                },
+                ticks: {
+                  callback: function (value) {
+                    return value.toLocaleString();
+                  },
+                },
+              },
               x: {
-                type: "category",
                 title: {
                   display: true,
                   text: "Time",
                 },
               },
+            },
+          },
+        });
+        const ctx2 = document
+          .getElementById("infectedRecoveredChart")
+          .getContext("2d");
+        new Chart(ctx2, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Infected",
+                data: infectedData,
+                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                fill: true,
+                tension: 0.1,
+              },
+              {
+                label: "Recovered",
+                data: recoveredData,
+                borderColor: "rgba(54, 162, 235, 1)",
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                fill: true,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            scales: {
               y: {
+                type: "logarithmic",
                 title: {
                   display: true,
-                  text: "Count",
+                  text: "Number of Infected/Recovered Individuals",
+                },
+                ticks: {
+                  callback: function (value) {
+                    return value.toLocaleString();
+                  },
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Time",
                 },
               },
             },
@@ -165,7 +212,7 @@ const fetchData = async () => {
     })
     .catch((error) => {
       console.log(error.message);
-      graph_section.innerHTML = `<p>No data!</p>`;
+      graph_data_div.innerHTML = `<p>No data!</p>`;
     });
 };
 

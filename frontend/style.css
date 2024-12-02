@@ -5,9 +5,9 @@ body {
   /*padding: 0 50px 50px 50px;*/
   margin: 0;
   padding: 0;
-  width: 100%;
-  overflow: hidden;
   font-family: Sans-serif;
+  width: 100%;
+  min-height: 1100px;
 }
 a {
   text-decoration: none;
@@ -17,15 +17,15 @@ a {
   color: white;
 }
 .topnav {
-  overflow: hidden;
   background-color: #68ace5;
-  padding: 10px;
-  width: 100vw;
+  padding: 20px;
   background-color: #68ace5;
   background-image: url("logo.png");
   background-repeat: no-repeat;
   background-position: right;
   background-size: 300px;
+  margin: 0;
+  height: 50px;
 }
 .introduction {
   width: 80vw;
@@ -34,7 +34,7 @@ a {
 }
 .sections {
   min-height: 100px;
-  width: 100vw;
+  width: 100%;
 }
 
 .topnav a {
@@ -53,7 +53,6 @@ a {
 }
 
 form {
-  background-color: #0072ce;
   width: 100%;
   height: 43px;
   border-radius: 11px;
@@ -78,18 +77,21 @@ input {
   margin-bottom: 40px;
 }
 
-.input_wrapper .input_form {
+#input_form_section {
   background-color: #68ace5;
+}
+
+.input_wrapper .input_form {
   padding: 30px;
   display: table;
-  width: 100vw;
+  width: auto;
   margin: auto;
   border-radius: 0;
   opacity: 1;
 }
 
 .input_wrapper .start_button {
-  margin-top: 2rem;
+  margin-top: 10px;
 }
 
 .input_wrapper input {
@@ -118,6 +120,10 @@ input {
   position: relative;
   width: 270px;
 }
+#start_button_div {
+  height: 50px;
+  margin: 0px;
+}
 
 .start_button {
   margin: 0 auto;
@@ -144,26 +150,57 @@ input {
 
 #submit_data_response {
   display: table;
-  height: 20px;
-  margin-top: 15px;
+  height: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
 }
 #submit_data_response p {
   text-align: center;
   vertical-align: middle;
-  display: table-cell;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
+#graph_section {
+  min-height: 600px;
+  width: 950px;
+  margin: auto;
+}
+
+#graph_data_msg {
+  width: 500px;
+  margin: auto;
+}
+
+#graph_data_msg p {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#susceptibleChart,
+#infectedRecoveredChart {
+  width: 600px;
+  height: 400px;
+  margin: auto;
 }
 
 #graph_data_div {
-  display: table;
-  height: 20px;
-  margin-top: 15px;
-}
-#graph_data_div p {
-  text-align: center;
-  vertical-align: middle;
-  display: table-cell;
+  display: flex;
+  width: 500px;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
-#myChart {
+.chartjs-size-monitor,
+.chartjs-size-monitor {
   width: 400px;
+  height: 300px;
+}
+
+.graph_chart_div {
+  display: block;
+  margin: auto;
 }
