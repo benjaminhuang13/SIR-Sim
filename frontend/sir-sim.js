@@ -3,9 +3,6 @@ const API_GATEWAY =
 const input_form = document.getElementById("input_form_section");
 const graph_section_msg = document.getElementById("graph_data_msg");
 const graph_data_div = document.getElementById("graph_data_div");
-const graph_chart1 = document.getElementById("graph_chart1");
-const graph_chart2 = document.getElementById("graph_chart2");
-
 const submit_data_response = document.getElementById("submit_data_response");
 const start_button = document.getElementById("start_button");
 
@@ -95,8 +92,6 @@ const fetchData = async () => {
         const susceptibleData = data.map((entry) => entry.numSusceptible);
         const infectedData = data.map((entry) => entry.numInfected);
         const recoveredData = data.map((entry) => entry.numRecovered);
-
-        // Dynamically create the canvas element
         const canvas1 = document.createElement("canvas");
         canvas1.width = 450;
         canvas1.height = 300;
@@ -107,7 +102,6 @@ const fetchData = async () => {
         canvas2.id = "infectedRecoveredChart";
         graph_data_div.appendChild(canvas1);
         graph_data_div.appendChild(canvas2);
-        // Create chart
         const ctx1 = document
           .getElementById("susceptibleChart")
           .getContext("2d");
@@ -214,10 +208,6 @@ const fetchData = async () => {
       graph_data_div.innerHTML = `<p>No data!</p>`;
     });
 };
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 function fade_element(element) {
   var op = 1; // initial opacity
