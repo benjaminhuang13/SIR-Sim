@@ -53,6 +53,9 @@ test_button.addEventListener("click", (e) => {
     );
   }
 });
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 config = {
   headers: {
