@@ -42,7 +42,7 @@ test_button.addEventListener("click", async (e) => {
   e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
   console.log("test button clicked!");
   for (let i = 0; i < 500; i++) {
-    await sleep(i * 1500);
+    await sleep(1400);
     console.log("iteration: " + i);
     submit_input(
       population_size.value,
