@@ -29,7 +29,7 @@ start_button.addEventListener("click", (e) => {
 });
 
 // test
-test_button.addEventListener("click", (e) => {
+test_button.addEventListener("click", async (e) => {
   const population_size = document.getElementById("population_size");
   const initial_infection_rate = document.getElementById(
     "initial_infection_rate"
@@ -40,9 +40,9 @@ test_button.addEventListener("click", (e) => {
   const recovery_rate = document.getElementById("recovery_rate");
   const timeStepsDays = document.getElementById("timeStepsDays");
   e.preventDefault(); //stops the form from submitting in the traditional way, which would refresh the page.
-  console.log("start button clicked!");
-  for (let i = 0; i < 1000; i++) {
-    sleep(1500);
+  console.log("test button clicked!");
+  for (let i = 0; i < 500; i++) {
+    await sleep(i * 1500);
     console.log("iteration: " + i);
     submit_input(
       population_size.value,
