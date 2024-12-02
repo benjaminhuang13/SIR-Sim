@@ -28,6 +28,7 @@ Results manager runs on AWS Lambda with a SQS trigger.
 Expected input was defined within the protobuf file and received as a JSON.
 
 An example:
+
 ```
 {
    results: {
@@ -51,7 +52,7 @@ When running in AWS, the following can be used for a test:
     {
       "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
       "receiptHandle": "MessageReceiptHandle",
-      "body": "{\"results\": [{\"time\": 1732473550000,\"numSusceptible\": 100, \"numInfected\": 2000, \"numRecovered\": 30 }]}",
+      "body": "{\"results\": [{\"results\": [{\"time\": 1732473550000,\"numSusceptible\": 100, \"numInfected\": 2000, \"numRecovered\": 30 }]}]}",
       "attributes": {
         "ApproximateReceiveCount": "1",
         "SentTimestamp": "1523232000000",

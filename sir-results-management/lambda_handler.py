@@ -16,10 +16,7 @@ def lambda_handler(event, context):
       print("event: {}".format(event))
       results =  event['Records'][0]['body'] # str
       results_json = json.loads(results)  # dict
-      print('results_json[\'results\'][\'0\']  \t{}'.format(results_json['results'][0]))
-      results_list = results_json['results'][0]
-
-      success, errMessage = time_stream_interface.writeResults(region, results_list)
+      success, errMessage = time_stream_interface.writeResults(region, results_json)
 
       if success:
          # If successful send event to successful write queue
