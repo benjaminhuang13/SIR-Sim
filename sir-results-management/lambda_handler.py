@@ -14,13 +14,12 @@ def lambda_handler(event, context):
       # TODO - I don't believe we are doing batch lambdas for this.
       #  May need to add a loop through the records
       print("event: {}".format(event))
-      results =  event['Records'][0]['body']
-      results_json = json.loads(json.loads(results))
-      print(type(results_json))
-      print(type(results))
-      print('parsed str: {}'.format(results_json))
+      results =  event['Records'][0]['body'] # str
+      results_json = json.loads(results)  # dict
+      print('results_json[\'results\'][\'0\']  \t{}'.format(results_json['results'][0]))
+      results_list = results_json['results'][0]
 
-      success, errMessage = time_stream_interface.writeResults(region, results_json)
+      success, errMessage = time_stream_interface.writeResults(region, results_list)
 
       if success:
          # If successful send event to successful write queue
