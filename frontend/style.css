@@ -1,3 +1,6 @@
+html {
+  height: auto;
+}
 body {
   background-color: #eaf5ff;
   font-family: sans-serif;
@@ -7,7 +10,11 @@ body {
   padding: 0;
   font-family: Sans-serif;
   width: 100%;
-  min-height: 1100px;
+  /* min-height: 1100px; */
+  height: auto;
+}
+footer {
+  margin-top: 15px;
 }
 a {
   text-decoration: none;
@@ -54,7 +61,7 @@ a {
 
 form {
   width: 100%;
-  height: 43px;
+  height: auto;
   border-radius: 11px;
   display: flex;
   align-items: center;
@@ -111,6 +118,7 @@ input {
   display: flex;
   font-size: 1rem;
   margin-top: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .input_form_row {
@@ -118,7 +126,6 @@ input {
   justify-content: space-between;
   margin: 0 auto 3px;
   position: relative;
-  width: 270px;
 }
 #start_button_div {
   height: 50px;
@@ -163,7 +170,7 @@ input {
 }
 
 #graph_section {
-  min-height: 600px;
+  height: auto;
   width: 950px;
   margin: auto;
 }
@@ -188,7 +195,7 @@ input {
 #graph_data_div {
   display: flex;
   width: 500px;
-  height: 300px;
+  height: auto;
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -213,6 +220,6 @@ input {
     display: block;
   }
   #graph_section {
-    width: 520px;
+    width: auto;
   }
 }
