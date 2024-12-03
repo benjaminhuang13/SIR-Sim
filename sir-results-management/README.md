@@ -8,7 +8,7 @@ Prereq: Install Docker
 2. Build the sir-engine Dockerfile, tag, push it to new ECR
 3. Create lambda from the ECR image. NOTE: Docker buildx >= 0.1.0 makes a manifest (several images). Pick the one that works :-)
 4. Set lambda execution role with `AmazonSQSFullAccess` permissions
-5. Configure SQS input queue as trigger
+5. Configure `engine-results` SQS input queue as trigger
 6. Configure Environmental Variables:
 
 - `DATABASE_NAME` `sir-sim`
