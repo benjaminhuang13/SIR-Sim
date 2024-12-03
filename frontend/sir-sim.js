@@ -1,5 +1,5 @@
 const API_GATEWAY =
-  "https://gp8rnrotf4.execute-api.us-east-1.amazonaws.com/prd/sirsim/data";
+  "https://o1tzuafmkh.execute-api.us-east-1.amazonaws.com/sirsim/data"; //gp8rnrotf4
 const input_form = document.getElementById("input_form_section");
 const graph_section_msg = document.getElementById("graph_data_msg");
 const graph_data_div = document.getElementById("graph_data_div");
