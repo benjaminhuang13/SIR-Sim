@@ -2,16 +2,32 @@
 
 _How to host webpage on S3_
 
-1. Create bucket named `sir-sim.com`
-2. Disable `Block all public access` in `Block Public Access settings for this bucket` and check the acknowledge warning message
-3. Click `create` button
-4. Go into the bucket and go into `Properties` tab
-5. Scroll all the way down to `Static website hosting` and click `Edit`
-6. Enable `Static website hosting`.
-7. Select `Host a static website` for Hosting type.
-8. Type `index.html` for Index document.
-9. Click `Save changes`
+1.  Create bucket named `sir-sim.com`
+2.  Disable `Block all public access` in `Block Public Access settings for this bucket` and check the acknowledge warning message
+3.  Click `create` button
+4.  Go into the bucket and go into `Properties` tab
+5.  Scroll all the way down to `Static website hosting` and click `Edit`
+6.  Enable `Static website hosting`.
+7.  Select `Host a static website` for Hosting type.
+8.  Type `index.html` for Index document.
+9.  Click `Save changes`
 10. Go to `Objects` tab and upload the `index.html` `sir-sim.js` `style.css` `favicon.png` `logo.png` files.
+11. Go to `Permissions` tab and add the policy below with correct bucket name.
+
+    ```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "PublicReadGetObject",
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::[BUCKET_NAME]/*"
+            }
+        ]
+    }
+    ```
 
 _How to create HTTP API Gateway_
 

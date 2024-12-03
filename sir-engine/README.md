@@ -4,7 +4,7 @@
 - Output queue for simulation results
 - Set environment variable (in lambda_handler.py for now) for OUTPUT_QUEUE_URL
 
-Create ECR and Lambda Function:
+## Create ECR and Lambda Function:
 
 1. Create ECR and click the "View Push Commands"
 2. Build the sir-engine Dockerfile, tag, push it to new ECR
