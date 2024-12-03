@@ -13,6 +13,9 @@ Prereq: Install Docker
 3. Create lambda from the ECR image. NOTE: Docker buildx >= 0.1.0 makes a manifest (several images). Pick the one that works :-)
 4. Set lambda execution role with `AmazonSQSFullAccess` permissions
 5. Configure SQS input queue as trigger
+6. Configure Environmental Variables:
+
+- `OUTPUT_QUEUE` `https://sqs.us-east-1.amazonaws.com/[ACCOUNT_ID]/engine-results`
 
 ## Test:
 
