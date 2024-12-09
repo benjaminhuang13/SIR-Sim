@@ -20,3 +20,6 @@ Lambda that handles the retrieval of results from an SQS. See README.md in `/sir
 ## frontend
 
 HTTML/CSS/Javascript webpage hosted on a S3 bucket. See README.md in `/frontend` for details about deploying S3 bucket and API Gateway.
+
+### Inspiration
+https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_benedikt_gutsche/
